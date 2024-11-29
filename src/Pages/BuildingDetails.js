@@ -3,10 +3,17 @@ import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import ImageSlider from "../Components/FindRoom/ImageSlider"; // ImageSlider component
+import { bookRoom } from "../services/HandleBooking";
+import { useNavigate } from "react-router-dom";
+import { useDispatch,useSelector } from "react-redux";
 
 export default function BuildingDetails() {
   const { id } = useParams();
   const [buildingDetails, setBuildingDetails] = useState(null);
+  const { token } = useSelector((state) => state.auth)
+  const { user } = useSelector((state) => state.profile)
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
 
   useEffect(() => {
     const fetchBuildingDetails = async () => {
@@ -21,6 +28,11 @@ export default function BuildingDetails() {
     };
     fetchBuildingDetails();
   }, [id]);
+
+  function handleBooking(){
+      console.log("user is",user);
+      bookRoom(token,id, user, navigate, dispatch)
+  }
 
   if (!buildingDetails) return <p>Loading...</p>;
 
@@ -88,6 +100,13 @@ export default function BuildingDetails() {
               <ImageSlider images={buildingDetails.images} />
             </div>
           )}
+          {
+            user?.accountType==="Student" &&
+            <div className="my-6 flex flex-col justify-center items-center gap-6">
+              <p className="text-center text-sm text-gray-600">Book room and get owner details</p>
+              <button onClick={handleBooking} className="px-6 py-3 bg-indigo-600 text-white rounded-sm hover:bg-indigo-700">Book Room</button>
+            </div>
+          }
         </div>
       </div>
     </div>

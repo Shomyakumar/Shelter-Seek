@@ -35,9 +35,11 @@ cloudinaryConnect();
 const userRoutes=require('./Routes/user');
 const profileRoutes=require('./Routes/profile');
 const buildingRoutes=require('./Routes/Building');
+const paymentRoutes=require('./Routes/Payments');
 app.use('/api/v1/auth',userRoutes);
 app.use('/api/v1/profile',profileRoutes);
 app.use('/api/v1/building',buildingRoutes);
+app.use('/api/v1/payment',paymentRoutes);
 
 const PORT=process.env.PORT||4000;
 app.listen(PORT,()=>{

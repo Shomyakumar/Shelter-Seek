@@ -13,6 +13,10 @@ import Register from './Pages/Register'
 import UploadPhotos from './Pages/UploadPhotos'
 import FindRooms from './Pages/FindRooms'
 import BuildingDetails from './Pages/BuildingDetails'
+import UpdateBuilding from './Pages/UpdateBuilding'
+import UserListings from './Pages/UserListings'
+import Bookings from './Pages/Bookings'
+
 export default function App() {
   return (
     <div>
@@ -31,6 +35,9 @@ export default function App() {
         <Route path='/register/upload-photos' element={<UploadPhotos/>}></Route>
         <Route path='/rooms' element={<FindRooms/>}/>
         <Route path='/rooms/roomDetails/:id' element={<BuildingDetails/>}/>
+        <Route path='/update/:id' element={<UpdateBuilding/>}/>
+        <Route path='/listings' element={<UserListings/>}/>
+        <Route path='/building/bookings/:id' element={<Bookings/>}/>
       </Routes>
       <Footer/>
     </div>

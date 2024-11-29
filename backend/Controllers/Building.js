@@ -246,3 +246,103 @@ exports.getBuildingDetails = async (req, res) => {
     });
   }
 };
+
+exports.updateBuildingDetails = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { totalRooms, vacantRooms, price,address } = req.body;
+
+        // Validate input
+        if (vacantRooms > totalRooms) {
+            return res.status(400).json({
+                success: false,
+                message: "Vacant rooms cannot exceed total rooms.",
+            });
+        }
+
+        // Find and update building
+        const building = await Building.findByIdAndUpdate(
+            id,
+            { totalRooms, vacantRooms, price,address },
+            { new: true} // Return updated document
+        );
+
+        if (!building) {
+            return res.status(404).json({
+                success: false,
+                message: "Building not found.",
+            });
+        }
+
+        res.status(200).json({
+            success: true,
+            message: "Building updated successfully.",
+            data: building,
+        });
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: "Error updating building details.",
+            error: error.message,
+        });
+    }
+};
+
+exports.deleteBuilding = async (req, res) => {
+  try {
+    const { id } = req.body;
+    console.log("house id is",id);
+
+    // Find building by ID
+    const building = await Building.findById(id);
+    
+    if (!building) {
+      return res.status(404).json({
+        success: false,
+        message: 'Building not found',
+      });
+    }
+
+    const response=await Building.findByIdAndDelete(id);
+    res.status(200).json({
+      success: true,
+      message: 'Building deleted successfully',
+      data: response,
+    });
+
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: 'Error deleting building',
+      error: error.message,
+    });
+  }
+};
+
+
+exports.getBookedUsers = async (req, res) => {
+    const buildingId = req.params.id;
+
+    try {
+        // Find the building and populate bookedUsers
+        const building = await Building.findById(buildingId).populate("bookedUsers", "firstName lastName email image");
+
+        if (!building) {
+            return res.status(404).json({
+                success: false,
+                message: "Building not found",
+            });
+        }
+
+        return res.status(200).json({
+            success: true,
+            bookedUsers: building.bookedUsers,
+        });
+    } catch (error) {
+        console.error("Error fetching booked users:", error);
+        return res.status(500).json({
+            success: false,
+            message: "Internal server error",
+        });
+    }
+};

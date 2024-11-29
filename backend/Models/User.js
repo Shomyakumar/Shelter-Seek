@@ -43,5 +43,13 @@ const userSchema=new mongoose.Schema({
         type: String,
         required: true,
     },
+    bookings:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:'Building',
+        
+    },
+    payments:[{
+        type:String,
+    }]
 })
 module.exports=mongoose.model("User",userSchema);

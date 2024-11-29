@@ -64,17 +64,12 @@ const buildingSchema = new mongoose.Schema({
         ref: 'User',  // Assuming you have a User model for property owners
         required: true,
     },
-    // geoLocation: {
-    //     type: {
-    //         type: String,
-    //         enum: ['Point'],
-    //         default: 'Point',
-    //     },
-    //     coordinates: {
-    //         type: [Number],  // [longitude, latitude]
-    //         required: false,
-    //     },
-    // },
+    bookedUsers:[{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',  // Assuming you have a User model for property owners
+        
+    }]
+ 
 
 }, {
     timestamps: true  // Automatically adds createdAt and updatedAt
