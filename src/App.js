@@ -16,29 +16,107 @@ import BuildingDetails from './Pages/BuildingDetails'
 import UpdateBuilding from './Pages/UpdateBuilding'
 import UserListings from './Pages/UserListings'
 import Bookings from './Pages/Bookings'
+import PrivateRoute from './Components/Common/PrivateRoute'
+import UserBookings from './Pages/UserBookings'
 
 export default function App() {
   return (
     <div>
       <Navbar/>
 
+      
       <Routes>
-        <Route path="/" element={<Home/>}/>
-        <Route path="/about" element={<About/>}/>
-        <Route path="/findrooms" element={<Home/>}/>
-        <Route path="/login" element={<LoginForm/>}/>
-        <Route path="/signup" element={<SignupForm/>}/>
-        <Route path="/verify-email" element={<VerifyEmail/>}/>
-        <Route path='/profile' element={<Profile/>}/>
-        <Route path='/profile/settings' element={<Settings/>}/>
-        <Route path='/register' element={<Register/>}></Route>
-        <Route path='/register/upload-photos' element={<UploadPhotos/>}></Route>
-        <Route path='/rooms' element={<FindRooms/>}/>
-        <Route path='/rooms/roomDetails/:id' element={<BuildingDetails/>}/>
-        <Route path='/update/:id' element={<UpdateBuilding/>}/>
-        <Route path='/listings' element={<UserListings/>}/>
-        <Route path='/building/bookings/:id' element={<Bookings/>}/>
-      </Routes>
+            {/* Public Routes */}
+            <Route path="/" element={<Home />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/findrooms" element={<Home />} />
+            <Route path="/login" element={<LoginForm />} />
+            <Route path="/signup" element={<SignupForm />} />
+            <Route path="/verify-email" element={<VerifyEmail />} />
+
+            {/* Protected Routes */}
+            <Route
+                path="/profile"
+                element={
+                    <PrivateRoute>
+                        <Profile />
+                    </PrivateRoute>
+                }
+            />
+            <Route
+                path="/profile/settings"
+                element={
+                    <PrivateRoute>
+                        <Settings />
+                    </PrivateRoute>
+                }
+            />
+            <Route
+                path="/register"
+                element={
+                    <PrivateRoute>
+                        <Register />
+                    </PrivateRoute>
+                }
+            />
+            <Route
+                path="/register/upload-photos"
+                element={
+                    <PrivateRoute>
+                        <UploadPhotos />
+                    </PrivateRoute>
+                }
+            />
+            <Route
+                path="/rooms"
+                element={
+                    <PrivateRoute>
+                        <FindRooms />
+                    </PrivateRoute>
+                }
+            />
+            <Route
+                path="/rooms/roomDetails/:id"
+                element={
+                    <PrivateRoute>
+                        <BuildingDetails />
+                    </PrivateRoute>
+                }
+            />
+            <Route
+                path="/update/:id"
+                element={
+                    <PrivateRoute>
+                        <UpdateBuilding />
+                    </PrivateRoute>
+                }
+            />
+            <Route
+                path="/listings"
+                element={
+                    <PrivateRoute>
+                        <UserListings />
+                    </PrivateRoute>
+                }
+            />
+            <Route
+                path="/building/bookings/:id"
+                element={
+                    <PrivateRoute>
+                        <Bookings />
+                    </PrivateRoute>
+                }
+            />
+            <Route
+                path="/user/bookings"
+                element={
+                    <PrivateRoute>
+                        <UserBookings />
+                    </PrivateRoute>
+                }
+            />
+        </Routes>
+     
       <Footer/>
     </div>
   )

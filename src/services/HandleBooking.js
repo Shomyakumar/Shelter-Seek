@@ -43,7 +43,7 @@ export async function bookRoom(token, buildingId, userDetails, navigate, dispatc
 
         // Razorpay options
         const options = {
-            key: process.env.RAZORPAY_KEY, // Use environment variable for the key
+            key: 'rzp_test_GmOddVbj8lk4t2',
             currency: orderResponse.data.data.currency,
             amount: `${orderResponse.data.data.amount}`,
             order_id: orderResponse.data.data.id,
@@ -79,25 +79,6 @@ export async function bookRoom(token, buildingId, userDetails, navigate, dispatc
     toast.dismiss(toastId);
 }
 
-async function sendPaymentSuccessEmail(response, amount, token) {
-    try {
-        await axios.post(
-            "http://localhost:4000/api/v1/payment/sendPaymentSuccessEmail", // Replace with the correct API endpoint
-            {
-                orderId: response.razorpay_order_id,
-                paymentId: response.razorpay_payment_id,
-                amount,
-            },
-            {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-            }
-        );
-    } catch (error) {
-        console.log("PAYMENT SUCCESS EMAIL ERROR:", error);
-    }
-}
 
 async function verifyPayment(bodyData, token, navigate, dispatch) {
     const toastId = toast.loading("Verifying Payment...");
@@ -123,4 +104,23 @@ async function verifyPayment(bodyData, token, navigate, dispatch) {
         toast.error("Could not verify payment");
     }
     toast.dismiss(toastId);
+}
+async function sendPaymentSuccessEmail(response, amount, token) {
+    try {
+        await axios.post(
+            "http://localhost:4000/api/v1/payment/sendPaymentSuccessEmail", // Replace with the correct API endpoint
+            {
+                orderId: response.razorpay_order_id,
+                paymentId: response.razorpay_payment_id,
+                amount,
+            },
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            }
+        );
+    } catch (error) {
+        console.log("PAYMENT SUCCESS EMAIL ERROR:", error);
+    }
 }

@@ -52,7 +52,7 @@ export default function UpdatePic(){
             catch (error)
                 {
                     console.log("UPDATE_PROFILE_PICTURE_API ERROR............", error);
-                    toast.error("Could Not upload image");
+                    toast.error(error.message);
                 }
             dispatch(setLoading(false));
             toast.dismiss(toastId);

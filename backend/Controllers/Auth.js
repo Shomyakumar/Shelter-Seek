@@ -206,3 +206,28 @@ exports.sendotp=async(req,res)=>{
         })
     }
 }
+
+
+
+
+ exports.userBookings=async (req, res) => {
+    try {
+        const userId = req.user.id; // Assuming the authenticate middleware sets req.user
+
+        const user = await User.findById(userId)
+            .populate('bookings') // Populates the bookings from the Building model
+            .exec();
+
+        console.log("user is",user)
+        if (!user) {
+            return res.status(404).json({ message: 'User not found.' });
+        }
+
+        res.status(200).json({ 
+            bookings: user.bookings });
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).json({ message: 'Server error.' });
+    }
+};
+
